@@ -415,10 +415,22 @@
     dot.setAttribute('cx', xPix(last[0])); dot.setAttribute('cy', yPix(last[1])); dot.setAttribute('r', 3);
     dot.setAttribute('fill', s.color);
     svg.appendChild(dot);
+  });
+
+  // legenda no canto de cima a esquerda (vazio) - as tres curvas terminam
+  // quase no mesmo ponto, nome na ponta da linha ficava um em cima do outro
+  series.forEach(function (s, i) {
+    var ly = mT + 16 + i * 18, lx = mL + 14;
+    var sw = document.createElementNS(ns, 'line');
+    sw.setAttribute('x1', lx); sw.setAttribute('x2', lx + 18);
+    sw.setAttribute('y1', ly - 4); sw.setAttribute('y2', ly - 4);
+    sw.setAttribute('stroke', s.color); sw.setAttribute('stroke-width', 3);
+    sw.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(sw);
     var t = document.createElementNS(ns, 'text');
-    t.setAttribute('x', xPix(last[0]) - 6); t.setAttribute('y', yPix(last[1]) - 8);
-    t.setAttribute('text-anchor', 'end'); t.setAttribute('font-size', '11.5');
-    t.setAttribute('font-weight', '600'); t.setAttribute('fill', s.color);
+    t.setAttribute('x', lx + 26); t.setAttribute('y', ly);
+    t.setAttribute('font-size', '11.5'); t.setAttribute('font-weight', '600');
+    t.setAttribute('fill', s.color);
     t.textContent = s.label;
     svg.appendChild(t);
   });
